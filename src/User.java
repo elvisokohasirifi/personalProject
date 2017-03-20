@@ -11,6 +11,8 @@ public class User implements Serializable{
     protected HashMap<String, User> friends;
     protected List<Message> inbox;
     protected List<Message> sent;
+    protected List<String> friendRequests;
+    protected String status;
 
     User(String uName,String uPassword,String uUsername,String mail,String g, String pic){
         name = uName;
@@ -20,6 +22,7 @@ public class User implements Serializable{
         gender = Gender.valueOf(g);
         friends = new HashMap<>();
         profilePic = pic;
+        status = "";
     }
     
     public static boolean signUp(String uName,String uPassword,String uUsername,String mail,String g, String pic){
@@ -78,4 +81,7 @@ public class User implements Serializable{
         return false;
     }
     
+    public static void sendFriendRequest(String username){
+        
+    }
 }
