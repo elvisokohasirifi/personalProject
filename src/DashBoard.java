@@ -15,9 +15,13 @@ public class DashBoard {
     
     public static void load(){
         try{
-            ObjectInputStream ois = new ObjectInputStream(new FileInputStream("users.bin"));
-            users = (HashMap<String, User>) ois.readObject();
-            ois.close();
+            File file = new File("users.bin");
+            if(file.exists()){
+                ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file));
+                users = (HashMap<String, User>) ois.readObject();
+                ois.close();
+            }
+            
         }
         catch(Exception e){e.printStackTrace();}
     }
