@@ -1,3 +1,9 @@
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.*;
 /**
@@ -9,10 +15,38 @@ public class User implements Serializable{
     protected String username, password, name, email, profilePic;
     Gender gender;
     protected HashMap<String, User> friends;
-    protected List<Message> inbox;
-    protected List<Message> sent;
-    protected List<String> friendRequests;
+    protected ArrayList<Message> inbox;
+    protected ArrayList<Message> sent;
+    protected ArrayList<String> friendRequests;
     protected String status;
+    
+    public void save(){
+        try{
+            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(this.username + ".bin"));
+            oos.writeObject(friends);
+            oos.writeObject(inbox);
+            oos.writeObject(sent);
+            oos.writeObject(friendRequests);
+            oos.close();
+        }
+        catch(Exception e){e.printStackTrace();}
+    }
+    
+    public void load(){
+        try{
+            File file = new File("users.bin");
+            if(file.exists()){
+                ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file));
+                friends = (HashMap<String, User>) ois.readObject();
+                inbox = (ArrayList<Message>) ois.readObject();
+                sent = (ArrayList<Message>) ois.readObject();
+                friendRequests = (ArrayList<String>) ois.readObject();
+                ois.close();
+            }
+            
+        }
+        catch(Exception e){e.printStackTrace();
+    }
 
     User(String uName,String uPassword,String uUsername,String mail,String g, String pic){
         name = uName;
@@ -23,6 +57,10 @@ public class User implements Serializable{
         friends = new HashMap<>();
         profilePic = pic;
         status = "";
+        inbox = new ArrayList<>();
+        sent = new ArrayList<>();
+        friendRequests = new ArrayList<>();
+        save();
     }
     
     public static boolean signUp(String uName,String uPassword,String uUsername,String mail,String g, String pic){
@@ -83,5 +121,11 @@ public class User implements Serializable{
     
     public void sendFriendRequest(String username){
         DashBoard.users.get(username).friendRequests.add(this.username);
+    }
+    
+    public void confirmRequest(String username){
+        this.friendRequests.remove(username);
+        this.friends.put(username, DashBoard.users.get(username));
+        DashBoard.users.get(username).addFriend(this);
     }
 }
