@@ -45,7 +45,7 @@ public class User implements Serializable{
             }
             
         }
-        catch(Exception e){e.printStackTrace();
+        catch(Exception e){e.printStackTrace();}
     }
 
     User(String uName,String uPassword,String uUsername,String mail,String g, String pic){
