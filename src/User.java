@@ -81,7 +81,7 @@ public class User implements Serializable{
         return false;
     }
     
-    public static void sendFriendRequest(String username){
-        
+    public void sendFriendRequest(String username){
+        DashBoard.users.get(username).friendRequests.add(this.username);
     }
 }
