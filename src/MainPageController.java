@@ -97,6 +97,7 @@ public class MainPageController implements Initializable {
             } catch (IOException ex) {
             Logger.getLogger(MainPageController.class.getName()).log(Level.SEVERE, null, ex);
         }
+        status.setText(DashBoard.currentUser.status);
         /*face2.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(final ObservableValue<? extends String> observable, final String oldValue, final String newValue) {
