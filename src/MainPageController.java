@@ -82,6 +82,8 @@ public class MainPageController implements Initializable {
     private Label status;
     @FXML
     private Button searchBut;
+    @FXML
+    private Hyperlink friendrequests;
 
     /**
      * Initializes the controller class.
@@ -98,13 +100,7 @@ public class MainPageController implements Initializable {
             Logger.getLogger(MainPageController.class.getName()).log(Level.SEVERE, null, ex);
         }
         status.setText(DashBoard.currentUser.status);
-        /*face2.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(final ObservableValue<? extends String> observable, final String oldValue, final String newValue) {
-                // this will run whenever text is changed
-            }
-        });*/
-        
+        friendrequests.setText(friendrequests.getText() + " (" + DashBoard.currentUser.friendRequests.size() + ")");
     }    
 
     @FXML
@@ -164,5 +160,13 @@ public class MainPageController implements Initializable {
             }
         }
         face2.setContent(vb);
+    }
+
+    @FXML
+    private void findFriends(InputMethodEvent event) {
+    }
+
+    @FXML
+    private void showAllRequests(ActionEvent event) {
     }
 }
