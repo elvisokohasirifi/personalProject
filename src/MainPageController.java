@@ -100,7 +100,7 @@ public class MainPageController implements Initializable {
             Logger.getLogger(MainPageController.class.getName()).log(Level.SEVERE, null, ex);
         }
         status.setText(DashBoard.currentUser.status);
-        friendrequests.setText(friendrequests.getText() + " (" + DashBoard.currentUser.friendRequests.size() + ")");
+        friendrequests.setText("Friend requests (" + DashBoard.currentUser.friendRequests.size() + ")");
     }    
 
     @FXML
