@@ -1,0 +1,64 @@
+
+#loginBut:hover, #searchBut:hover{
+    -fx-opacity: 0.8;
+    -fx-border-color: red;
+    -fx-text-fill: red;
+}
+
+#loginBut, #searchBut{
+   -fx-border-color: #cc0000;
+   -fx-text-fill: white;
+   -fx-border-radius: 5px;
+   -fx-background-color: white;
+   -fx-text-fill: #cc0000;
+}
+
+#searchBut{
+   -fx-border-color: white white #cc0000 white; 
+}
+
+#signUpBut:hover{
+    -fx-background-color: white;
+    -fx-border-color:  #008000;
+    -fx-underline: false;
+}
+
+#forgotPassword:hover{
+    -fx-background-color: white;
+    -fx-text-fill: green;
+    -fx-underline: false;
+}
+
+#backBut:hover{
+    -fx-background-color: white;
+    -fx-border-color: red;
+    -fx-underline: false;
+    -fx-padding: 5;
+}
+
+#backBut{
+    -fx-background-color: white;
+}
+
+#profilePic{}
+
+#picArea{
+    
+}
+
+#username, #password, #confirm, #email, #message, #fullname{
+    -fx-border-color: white white #cc0000 white;
+    -fx-background-color: white;
+    -fx-text-fill: #cc0000;
+    
+}
+
+#message:focus, #message:active, #message:focused{
+    -fx-border-color: white white #cc0000 white;
+    -fx-background-color: white ;
+    -fx-box-shadow: none;
+}
+#face1, #face2, #face3, #face4 {
+    -fx-background-color: white ;
+    
+}
