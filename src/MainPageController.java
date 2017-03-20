@@ -157,7 +157,7 @@ public class MainPageController implements Initializable {
                 Hyperlink hl = new Hyperlink();
                 hl.setText(i.name + " (" + i.username + ")");
                 hl.setOnAction((ActionEvent e) -> {
-                    
+                    //to be done later
                 });
                 hb.getChildren().add(hl);
                 vb.getChildren().add(hb);
