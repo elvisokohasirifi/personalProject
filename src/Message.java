@@ -1,8 +1,11 @@
+
+import java.io.Serializable;
+
 /**
  *
  * @author Sir Elvis
  */
-public class Message {
+public class Message implements Serializable {
     protected String content, subject;
     
     Message(String title, String body){
