@@ -21,7 +21,7 @@ public class DashBoard {
                 users = (HashMap<String, User>) ois.readObject();
                 ois.close();
             }
-            
+           // currentUser.load();
         }
         catch(Exception e){e.printStackTrace();}
     }
