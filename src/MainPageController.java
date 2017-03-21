@@ -106,6 +106,26 @@ public class MainPageController implements Initializable {
         }
         status.setText(DashBoard.currentUser.status);
         friendrequests.setText("Friend requests (" + DashBoard.currentUser.friendRequests.size() + ")");
+        VBox vb = new VBox();
+        vb.setPrefWidth(300);
+        for(User i : DashBoard.currentUser.friends.values()){
+                HBox hb = new HBox();
+                hb.setMinWidth(face2.getMaxWidth());
+                hb.setStyle("-fx-padding: 5 10 5 10; -fx-border-color: #f5f5f5; -fx-background-color: white");
+                Hyperlink hl = new Hyperlink();
+                
+                hl.setText(i.name + " (" + i.username + ")");
+                hl.setOnAction((ActionEvent e) -> {
+                    for(Message k : DashBoard.currentUser.all){
+                        // to be done later
+                    }
+                      
+                });
+                hb.getChildren().add(hl);
+                vb.getChildren().add(hb);
+            }
+        
+        face2.setContent(vb);
     }    
 
     @FXML
@@ -137,13 +157,6 @@ public class MainPageController implements Initializable {
     }
 
     @FXML
-    private void logOut(Event event) {
-        Stage prevStage = (Stage) sendBut.getScene().getWindow();
-        prevStage.close();
-        logOut((ActionEvent) event);
-    }
-
-    @FXML
     private void findFriends(ActionEvent event) {
         System.out.println("starting");
         VBox vb = new VBox();
@@ -162,10 +175,11 @@ public class MainPageController implements Initializable {
                     String name;
                     name = hl.getText().substring(hl.getText().indexOf("(") + 1, hl.getText().indexOf(")"));
                             //.substring(1,hl.getText().split(" ")[1].indexOf(")"));
-                    System.out.print(name);
+                    //System.out.print(name);
                     Alert alert = new Alert(AlertType.CONFIRMATION);
                     alert.setTitle("Add friend");
                     alert.setHeaderText(null);
+                    alert.setContentText("Do you send " + hl.getText() + " a friend request?");
                     ButtonType buttonTypeSend = new ButtonType("Send friend request");
                     ButtonType buttonTypeCancel = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
                     alert.getButtonTypes().setAll(buttonTypeSend, buttonTypeCancel);
@@ -182,12 +196,37 @@ public class MainPageController implements Initializable {
         face2.setContent(vb);
     }
 
-    @FXML
-    private void findFriends(InputMethodEvent event) {
-       
-    }
 
     @FXML
     private void showAllRequests(ActionEvent event) {
+        VBox vb = new VBox();
+        vb.setPrefWidth(300);
+        face3.setHbarPolicy(ScrollBarPolicy.NEVER);
+        for(String i : DashBoard.currentUser.friendRequests){
+                HBox hb = new HBox();
+                hb.setMinWidth(face2.getMaxWidth());
+                hb.setStyle("-fx-padding: 5 10 5 10; -fx-border-color: #f5f5f5");
+                Label hl = new Label();
+                User b = DashBoard.users.get(i);
+                hl.setText(b.name + " (" + b.username + ")");
+                Button add = new Button("Add friend");
+                add.setOnAction(new EventHandler<ActionEvent>(){
+                    @Override
+                    public void handle(ActionEvent e){
+                        DashBoard.currentUser.addFriend(b);
+                    }
+                });
+                Button delete = new Button("Delete request");
+                delete.setOnAction(new EventHandler<ActionEvent>(){
+                    @Override
+                    public void handle(ActionEvent e){
+                        DashBoard.currentUser.friendRequests.remove(i);
+                    }
+                });
+                hb.getChildren().add(hl);
+                vb.getChildren().add(hb);
+            }
+        
+        face3.setContent(vb);
     }
 }
