@@ -14,7 +14,7 @@
 }
 
 #searchBut{
-   -fx-border-color: white white #cc0000 white; 
+   -fx-border-color: #d3d3d3; 
 }
 
 #signUpBut:hover{
