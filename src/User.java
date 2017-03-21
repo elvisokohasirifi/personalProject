@@ -19,8 +19,9 @@ public class User implements Serializable{
     protected ArrayList<Message> sent;
     protected ArrayList<String> friendRequests;
     protected String status;
+    protected LinkedList<Message> all;
     
-    public void save(){
+    protected void save(){
         try{
             ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(this.username + ".bin"));
             oos.writeObject(friends);
@@ -32,9 +33,9 @@ public class User implements Serializable{
         catch(Exception e){e.printStackTrace();}
     }
     
-    public void load(){
+    protected void load(){
         try{
-            File file = new File("users.bin");
+            File file = new File(this.username + ".bin");
             if(file.exists()){
                 ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file));
                 friends = (HashMap<String, User>) ois.readObject();
@@ -57,6 +58,7 @@ public class User implements Serializable{
         friends = new HashMap<>();
         profilePic = pic;
         status = "";
+        all = new LinkedList<>();
         inbox = new ArrayList<>();
         sent = new ArrayList<>();
         friendRequests = new ArrayList<>();
@@ -75,6 +77,7 @@ public class User implements Serializable{
         if (friends.containsKey(friend.username))
             return false;
         friends.put(friend.username, friend);
+        save();
         return true;
     }
     
@@ -84,6 +87,7 @@ public class User implements Serializable{
     
     protected boolean deleteFriend(String username){
         friends.remove(username);
+        save();
         return true;
     }
     
@@ -91,6 +95,7 @@ public class User implements Serializable{
         for(User i: receipients)
             i.inbox.add(message);
         sent.add(message);
+        save();
         return true;
     }
     
@@ -113,6 +118,7 @@ public class User implements Serializable{
             User user = DashBoard.users.get(username);
             if(user.password.equals(password)){
                 DashBoard.currentUser = user;
+                DashBoard.currentUser.load();
                 return true;
             }
         }
@@ -121,6 +127,8 @@ public class User implements Serializable{
     
     public void sendFriendRequest(String username){
         DashBoard.users.get(username).friendRequests.add(this.username);
+        save();
+        DashBoard.users.get(username).save();
     }
     
     public void confirmRequest(String username){
