@@ -226,7 +226,6 @@ public class MainPageController implements Initializable {
                 hb.getChildren().add(hl);
                 vb.getChildren().add(hb);
             }
-        
         face2.setContent(vb);
     }
 }
