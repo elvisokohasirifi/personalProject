@@ -105,27 +105,7 @@ public class MainPageController implements Initializable {
             Logger.getLogger(MainPageController.class.getName()).log(Level.SEVERE, null, ex);
         }
         status.setText(DashBoard.currentUser.status);
-        friendrequests.setText("Friend requests (" + DashBoard.currentUser.friendRequests.size() + ")");
-        VBox vb = new VBox();
-        vb.setPrefWidth(300);
-        for(User i : DashBoard.currentUser.friends.values()){
-                HBox hb = new HBox();
-                hb.setMinWidth(face2.getMaxWidth());
-                hb.setStyle("-fx-padding: 5 10 5 10; -fx-border-color: #f5f5f5; -fx-background-color: white");
-                Hyperlink hl = new Hyperlink();
-                
-                hl.setText(i.name + " (" + i.username + ")");
-                hl.setOnAction((ActionEvent e) -> {
-                    for(Message k : DashBoard.currentUser.all){
-                        // to be done later
-                    }
-                      
-                });
-                hb.getChildren().add(hl);
-                vb.getChildren().add(hb);
-            }
-        
-        face2.setContent(vb);
+        updateFriends();
     }    
 
     @FXML
@@ -158,7 +138,7 @@ public class MainPageController implements Initializable {
 
     @FXML
     private void findFriends(ActionEvent event) {
-        System.out.println("starting");
+        //System.out.println("starting");
         VBox vb = new VBox();
         vb.setPrefWidth(300);
         face2.setHbarPolicy(ScrollBarPolicy.NEVER);
@@ -210,23 +190,43 @@ public class MainPageController implements Initializable {
                 User b = DashBoard.users.get(i);
                 hl.setText(b.name + " (" + b.username + ")");
                 Button add = new Button("Add friend");
-                add.setOnAction(new EventHandler<ActionEvent>(){
-                    @Override
-                    public void handle(ActionEvent e){
-                        DashBoard.currentUser.addFriend(b);
-                    }
+                add.setOnAction((ActionEvent e) -> {
+                    DashBoard.currentUser.confirmRequest(b.username);
+                    updateFriends();
                 });
                 Button delete = new Button("Delete request");
-                delete.setOnAction(new EventHandler<ActionEvent>(){
-                    @Override
-                    public void handle(ActionEvent e){
-                        DashBoard.currentUser.friendRequests.remove(i);
+                delete.setOnAction((ActionEvent e) -> {
+                    DashBoard.currentUser.friendRequests.remove(i);
+                });
+                hb.setSpacing(10);
+                hb.getChildren().addAll(hl,add,delete);
+                vb.getChildren().add(hb);
+            }
+        
+        face3.setContent(vb);
+    }
+    
+    public void updateFriends(){
+        friendrequests.setText("Friend requests (" + DashBoard.currentUser.friendRequests.size() + ")");
+        VBox vb = new VBox();
+        vb.setPrefWidth(300);
+        for(User i : DashBoard.currentUser.friends.values()){
+                HBox hb = new HBox();
+                hb.setMinWidth(face2.getMaxWidth());
+                hb.setStyle("-fx-padding: 5 10 5 10; -fx-border-color: #f5f5f5; -fx-background-color: white");
+                Hyperlink hl = new Hyperlink();
+                
+                hl.setText(i.name + " (" + i.username + ")");
+                hl.setOnAction((ActionEvent e) -> {
+                    for(Message k : DashBoard.currentUser.all){
+                        // to be done later
                     }
+                      
                 });
                 hb.getChildren().add(hl);
                 vb.getChildren().add(hb);
             }
         
-        face3.setContent(vb);
+        face2.setContent(vb);
     }
 }
