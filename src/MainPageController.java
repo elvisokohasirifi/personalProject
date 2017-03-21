@@ -8,6 +8,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,7 +23,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
@@ -118,7 +123,6 @@ public class MainPageController implements Initializable {
                     Parent root1 = (Parent) fxmlLoader.load();
                     Stage stage = new Stage();
                     stage.getIcons().add(new Image("file:C:\\Users\\Sir Elvis\\OneDrive\\ChatApp\\Capture.PNG"));
-                    
                     stage.setScene(new Scene(root1, 600, 450)); 
                     stage.setTitle("ChatApp");
                     stage.show();
@@ -141,19 +145,35 @@ public class MainPageController implements Initializable {
 
     @FXML
     private void findFriends(ActionEvent event) {
-        System.out.print("starting");
+        System.out.println("starting");
         VBox vb = new VBox();
         vb.setPrefWidth(300);
         face2.setHbarPolicy(ScrollBarPolicy.NEVER);
         for(User i : DashBoard.users.values()){
-            if(i.name.contains(searchfriends.getText()) || i.username.contains(searchfriends.getText())){
+            if((i.name.contains(searchfriends.getText()) || 
+                    i.username.contains(searchfriends.getText()) && 
+                    !i.name.equalsIgnoreCase(DashBoard.currentUser.name) )){
                 HBox hb = new HBox();
                 hb.setMinWidth(face2.getMaxWidth());
                 hb.setStyle("-fx-padding: 5 10 5 10; -fx-border-color: #f5f5f5; -fx-background-color: white");
                 Hyperlink hl = new Hyperlink();
                 hl.setText(i.name + " (" + i.username + ")");
                 hl.setOnAction((ActionEvent e) -> {
-                    //to be done later
+                    String name;
+                    name = hl.getText().substring(hl.getText().indexOf("(") + 1, hl.getText().indexOf(")"));
+                            //.substring(1,hl.getText().split(" ")[1].indexOf(")"));
+                    System.out.print(name);
+                    Alert alert = new Alert(AlertType.CONFIRMATION);
+                    alert.setTitle("Add friend");
+                    alert.setHeaderText(null);
+                    ButtonType buttonTypeSend = new ButtonType("Send friend request");
+                    ButtonType buttonTypeCancel = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
+                    alert.getButtonTypes().setAll(buttonTypeSend, buttonTypeCancel);
+                    Optional<ButtonType> result = alert.showAndWait();
+                    if (result.get() == buttonTypeSend){
+                        DashBoard.currentUser.sendFriendRequest(name);
+                    } 
+                    else{alert.close();}
                 });
                 hb.getChildren().add(hl);
                 vb.getChildren().add(hb);
@@ -164,6 +184,7 @@ public class MainPageController implements Initializable {
 
     @FXML
     private void findFriends(InputMethodEvent event) {
+       
     }
 
     @FXML
