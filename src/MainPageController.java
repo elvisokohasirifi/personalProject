@@ -189,8 +189,11 @@ public class MainPageController implements Initializable {
                 Label hl = new Label();
                 User b = DashBoard.users.get(i);
                 hl.setText(b.name + " (" + b.username + ")");
-                Button add = new Button("Add friend");
-                Button delete = new Button("Delete request");
+                Button add = new Button("Add");
+                add.setStyle("-fx-background-color: white; -fx-border-color: #cc0000; -fx-text-fill: #cc0000");
+                add.setDefaultButton(true);
+                Button delete = new Button("Delete");
+                delete.setStyle("-fx-background-color: white; -fx-border-color: #cc0000; -fx-text-fill: #cc0000");
                 add.setOnAction((ActionEvent e) -> {
                     DashBoard.currentUser.confirmRequest(b.username);
                     updateFriends();
