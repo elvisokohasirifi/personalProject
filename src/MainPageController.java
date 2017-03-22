@@ -190,11 +190,14 @@ public class MainPageController implements Initializable {
                 User b = DashBoard.users.get(i);
                 hl.setText(b.name + " (" + b.username + ")");
                 Button add = new Button("Add friend");
+                Button delete = new Button("Delete request");
                 add.setOnAction((ActionEvent e) -> {
                     DashBoard.currentUser.confirmRequest(b.username);
                     updateFriends();
+                    add.setDisable(true);
+                    delete.setDisable(true);
                 });
-                Button delete = new Button("Delete request");
+                
                 delete.setOnAction((ActionEvent e) -> {
                     DashBoard.currentUser.friendRequests.remove(i);
                 });
